@@ -1,0 +1,102 @@
+---
+title: "My Data Project"
+author: "-- Insert author here -- -- Insert address here --" 
+date: "Wed Jun 28 2018"
+output:
+  html_document:
+    toc: true
+    theme: united
+  pdf_document:
+    toc: true
+    highlight: zenburn
+---
+
+```{r, echo = FALSE}
+## load packages
+library(knitr)
+library(rmarkdown)
+library(ggplot2)
+library(compareGroups)
+
+## load data, plot and table
+load(file.path("data/derived", "summary_small2_csv.RData"))
+
+## set up a couple of variable for printing
+N.CASES <- dim(df1)[1]
+N.VARS <- dim(df1)[2]
+```
+
+# Summary Statistics
+
+Data were cleaned and summary statistics presented here are for
+`r ifelse(SUBSET, "a subset of", "")`
+`r N.CASES` cases from `r N.VARS` variables.
+
+## Summary Tables
+
+Sometimes summaries can produce problematic output for *knitr* but
+really should be OK or use the package *pandoc* etc
+
+```{r, results='asis'}
+knitr::kable(psych::describe(df1))
+```
+
+Much nicer to use some better functions. We already produced and save
+this table before.
+
+```{r, results='asis'}
+export2md(table1)
+```
+
+## Summary Plots
+
+We could make some new ones or just use the one we saved previously.
+
+```{r, echo=FALSE}
+ggpairs1
+```
+
+# Statistical Analysis
+
+Ideally, you analyse data using *R* and simply output and discuss the
+results here.
+
+```{r, echo=FAlSE, results='asis'}
+if (exists(mod1) {
+  mod1 <-
+    lm(bmi.21 ~ bpSys.21 + ysrExter.14 + matEducat + sex,
+       data = df1)
+  knitr::kable(summary(mod1)$coeff, digi = 3)
+  knitr::kable(Anova(mod1))
+}
+```
+But we can and should make the table look better
+
+```{r}
+knitr::kable(summary(mod1)$coeff, digi = 3, caption = "Regression Coefficients")
+```
+
+And perhaps produce som some residual plots
+
+```{r, echo=FALSE}
+plot(mod1)
+```
+
+```{r, echo=FALSE}
+if (exists(mod1)) car::residualPlots(mod1)
+```
+
+And we could plot effects.
+
+```{r, echo=FALSE}
+  library(effects)
+  plot(allEffects(mod1))
+}
+```
+
+For more information about *R* markdown, please see
+<http://rmarkdown.rstudio.com>.
+
+Note that an 'echo = FALSE' parameter was added to the code chunk to
+prevent printing of the R code that generated the plot. You can find
+out more about options at <http://yihui.name/knitr/options/>.
