@@ -14,8 +14,10 @@ output:
 ```{r, echo = FALSE}
 ## load packages
 library(knitr)
+library(pander)
 library(rmarkdown)
 library(ggplot2)
+library(GGally)
 library(compareGroups)
 
 ## load data, plot and table
@@ -29,7 +31,7 @@ N.VARS <- dim(df1)[2]
 # Summary Statistics
 
 Data were cleaned and summary statistics presented here are for
-`r ifelse(SUBSET, "a subset of", "")`
+
 `r N.CASES` cases from `r N.VARS` variables.
 
 ## Summary Tables
@@ -61,15 +63,20 @@ ggpairs1
 Ideally, you analyse data using *R* and simply output and discuss the
 results here.
 
-```{r, echo=FAlSE, results='asis'}
-if (exists(mod1) {
+```{r, echo=FALSE, results='asis'}
   mod1 <-
-    lm(bmi.21 ~ bpSys.21 + ysrExter.14 + matEducat + sex,
-       data = df1)
+    lm(bmi.21 ~ bpSys.21 + ysrExter.14 + matEducat +
+         sex, data = df1)
   knitr::kable(summary(mod1)$coeff, digi = 3)
-  knitr::kable(Anova(mod1))
 }
 ```
+
+ANOVA table here
+
+```{r, echo=FALSE, results='asis'}
+  pander::pander(anova(mod1))
+```
+
 But we can and should make the table look better
 
 ```{r}
@@ -83,15 +90,14 @@ plot(mod1)
 ```
 
 ```{r, echo=FALSE}
-if (exists(mod1)) car::residualPlots(mod1)
+car::residualPlots(mod1)
 ```
 
 And we could plot effects.
 
 ```{r, echo=FALSE}
-  library(effects)
-  plot(allEffects(mod1))
-}
+library(effects)
+plot(allEffects(mod1))
 ```
 
 For more information about *R* markdown, please see

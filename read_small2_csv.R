@@ -20,7 +20,7 @@ df1 <-
   transform(df1,
             matEducat = factor(matEducat,
                                labels = c("IncompHigh", "CompHigh","PostHigh")),
-            familyIncome = factor(familyIncome, labels = "<$10399",">=$10400"),
+            familyIncome = factor(familyIncome, labels = c("<$10399",">=$10400")),
             sex = factor(sex, labels = c("Male", "Female")))
 ## str(df1[, c("matEducat", "familyIncome", "sex")])
 
@@ -31,8 +31,13 @@ str(df1)
 ### and so on but ideally these should be carried out when cleaning
 ### the data so that an unchanged original version is stored initially
 
+df1 <- transform(df1, logBMI = log(bmi.21))
+names(df1)
+
 ### Store data for subsequent analysis
 (comment(df1) <- paste("Data read from 'small2.csv' at", date()))
+comment(df1)
 
 save(small2_csv_orig, df1,
   file = file.path("data/derived", "orig_small2_csv.RData"))
+
