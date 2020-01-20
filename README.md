@@ -1,4 +1,4 @@
-# qaffi-git-tutorial
+# qaafi-git-tutorial
 
 A small project to illustrate **git**, **GitHub** and **RStudio** projects
 
