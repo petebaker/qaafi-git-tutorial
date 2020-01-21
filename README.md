@@ -3,4 +3,4 @@
 A small project to illustrate **git**, **GitHub** and **RStudio** projects
 
 Peter Baker
-20/1/2020
+21/1/2020
